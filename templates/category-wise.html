@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>{{ category.title }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                {% for product in category_pages %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="single-shop-product">
+                            <div class="product-upper">
+
+                                {# don't forget this href to make image clickable #}
+                                <a href="{% url 'ecommerce:single_product' product.slug %}">
+                                    {% thumbnail product.image.image "195x243" crop="center" as im %}
+                                        {# here change to product.image.image image resoultion taken form product-2.jpg #}{# this code is copied from sorl thumbnail documentaioin template eg #}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}
+                                </a>
+                            </div>
+                            <h2><a href="{% url 'ecommerce:single_product' product.slug %}">{{ product.title }}</a></h2>
+                            <div class="product-carousel-price">
+                                <ins>Rs. {{ product.price }}</ins>
+                                <del>Rs. {{ product.discount }}</del>
+                            </div>
+
+                            <div class="product-option-shop">
+                                <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70"
+                                   rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    {% if category_pages.has_previous %}
+                                        <a href="?page={{ category_pages.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+
+                                {% for page in paginator.page_range %}
+
+                                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+
+                                {% endfor %}
+
+
+                                <li>
+                                    {% if category_pages.has_next %}
+                                        <a href="?page={{ category_pages.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

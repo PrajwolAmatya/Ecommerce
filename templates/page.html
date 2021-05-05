@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>{{ page.title }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% thumbnail page.image "1000x400" crop="center" as im %}{# yei resolution le height ra weight miilauxa #}
+        {# here change to product.image.image image resoultion taken form product-2.jpg #}{# this code is copied from sorl thumbnail documentaioin template eg #}
+        <img src="{{ im.url }}" width="100%">
+    {% endthumbnail %}
+
+
+    <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                        {{ page.content | safe }}
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
